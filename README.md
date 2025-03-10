@@ -14,8 +14,7 @@ Sewing Future is an innovative web-based platform designed to enhance the sewing
 ## Technologies Used
 - **HTML5 & CSS3**: For structuring and styling the web application.
 - **JavaScript**: For interactive elements and functionality.
-- **Python (If Backend is Integrated)**: Handles data processing and advanced features.
-- **PyQt5 (For Desktop Version)**: Builds a graphical interface if a desktop version is implemented.
+
 
 ## Getting Started
 To use this project locally:
@@ -33,9 +32,4 @@ To use this project locally:
 ## Contributing
 We welcome contributions! Feel free to fork this repository, make your changes, and submit a pull request.
 
-## License
-This project is licensed under the MIT License.
-
-## Contact
-For any questions or suggestions, please reach out via [your email or GitHub profile].
 
