@@ -50,6 +50,12 @@
         nav {
             background-color: #4D5D53;
             padding: 1rem 0;
+            position: relative;
+        }
+        
+        nav .container {
+            display: flex;
+            justify-content: center;
         }
         
         nav ul {
@@ -76,6 +82,26 @@
         
         nav a:hover {
             color: #D6E5D8;
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            z-index: 10;
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin-bottom: 5px;
+            transition: all 0.3s;
         }
         
         /* Main Content */
@@ -153,6 +179,70 @@
             background-color: #4D5D53;
         }
         
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .submit-button {
+            background-color: #7B8B6F;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .submit-button:hover {
+            background-color: #4D5D53;
+        }
+        
         /* Footer */
         footer {
             background-color: #333;
@@ -183,9 +273,26 @@
                 font-size: 2rem;
             }
             
+            .hamburger {
+                display: flex;
+            }
+            
             nav ul {
                 flex-direction: column;
                 align-items: center;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #4D5D53;
+                display: none;
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                z-index: 5;
+            }
+            
+            nav ul.show {
+                display: flex;
             }
             
             nav li {
@@ -210,11 +317,16 @@
     <!-- Navigation -->
     <nav>
         <div class="container">
-            <ul>
+            <div class="hamburger" id="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-menu">
                 <li><a href="#vision">Our Vision</a></li>
                 <li><a href="#objectives">Core Objectives</a></li>
                 <li><a href="#impact">Impact</a></li>
-				<li><a href="#future">Future-plans</a></li>
+                <li><a href="#future">Future-plans</a></li>
                 <li><a href="#community">Community</a></li>
                 <li><a href="#involved">Get Involved</a></li>
             </ul>
@@ -269,14 +381,14 @@
                 
                 <p>Through its focus on small acts of kindness and collaborative action, the project aims to generate meaningful change in both personal and collective spheres. The Sewing Circle envisions a future where individuals feel supported, seen, and heard—not just in their professional lives, but in their personal, emotional, and social lives as well.</p>
             </section>
-			
+            
             <section id="future" class="future-plans">
                 <h2>Future Plans</h2>
                 <p>As The Sewing Circle grows, we plan to integrate technology to enhance our mission. Collaborating with PhD experts, we aim to develop an AI-powered IT information assistant, akin to ChatGPT. This assistant will provide real-time IT-related information, aiding individuals and businesses in navigating the evolving tech landscape.</p>
                 <p>By merging advanced AI capabilities with our community-driven approach, we seek to bolster knowledge sharing, support professional growth, and create a digital platform that complements our in-person gatherings. This initiative aligns with current trends where AI agents are being developed to enhance workplace productivity by automating tasks and collaborating with human employees.</p>
                 <p>Companies like ServiceNow and Salesforce are using AI to handle customer support and draft communications, reflecting the potential of AI in augmenting human efforts.</p>
             </section>
-			
+            
             <section id="community">
                 <h2>Community Engagement and Growth</h2>
                 <p>The true beauty of the Sewing Circle lies in its organic growth. Unlike many large-scale social movements that rely on major events or media campaigns, the Sewing Circle thrives on word-of-mouth, grassroots participation, and voluntary involvement. Each individual who participates contributes to the ongoing momentum of the project, ensuring that it remains grounded in its core values of authenticity and collaboration.</p>
@@ -320,10 +432,38 @@
                 
                 <p>Together, we can make the world a more compassionate and connected place—one small act of kindness at a time.</p>
                 
-                <a href="#" class="cta-button">Join The Movement</a>
+                <a href="#" class="cta-button" id="join-button">Join The Movement</a>
             </section>
         </div>
     </main>
+    
+    <!-- Join Modal -->
+    <div class="modal" id="join-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>Join The Sewing Circle</h2>
+            <p>Fill out the form below to become part of our growing community.</p>
+            <form id="join-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">City/Town</label>
+                    <input type="text" id="location" name="location">
+                </div>
+                <div class="form-group">
+                    <label for="interests">How would you like to contribute?</label>
+                    <textarea id="interests" name="interests" rows="4"></textarea>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </div>
     
     <!-- Footer -->
     <footer>
@@ -340,5 +480,69 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger-menu');
+            const navMenu = document.getElementById('nav-menu');
+            const joinButton = document.getElementById('join-button');
+            const joinModal = document.getElementById('join-modal');
+            const closeModal = document.getElementById('close-modal');
+            const joinForm = document.getElementById('join-form');
+            
+            // Toggle navigation menu
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('show');
+            });
+            
+            // Close menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('show');
+                });
+            });
+            
+            // Open modal when clicking join button
+            joinButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                joinModal.style.display = 'flex';
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                joinModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target === joinModal) {
+                    joinModal.style.display = 'none';
+                }
+            });
+            
+            // Form submission
+            joinForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const location = document.getElementById('location').value;
+                const interests = document.getElementById('interests').value;
+                
+                // Here you would typically send the data to a server
+                console.log('Form submitted:', { name, email, location, interests });
+                
+                // Show success message
+                alert('Thank you for joining The Sewing Circle! We will be in touch soon.');
+                
+                // Close modal and reset form
+                joinModal.style.display = 'none';
+                joinForm.reset();
+            });
+        });
+    </script>
 </body>
 </html>
